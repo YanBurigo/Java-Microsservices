@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import io.github.yanburigo.model.Book;
+import io.github.yanburigo.proxy.CambioProxy;
 import io.github.yanburigo.repositories.BookRepository;
 import io.github.yanburigo.response.Cambio;
 
@@ -24,7 +25,29 @@ public class BookController {
 	@Autowired
 	private BookRepository repository;
 	
+	@Autowired
+	private CambioProxy proxy;
+	
 	@GetMapping(value = "/{id}/{currency}")
+	public Book findBook(@PathVariable("id") Long id, @PathVariable("currency") String currency) {
+		
+		var book = repository.getById(id);
+		if(book == null) throw new RuntimeException("Book not Found");
+		
+		var cambio = proxy.getCambio(book.getPrice(), "USD", currency);
+		
+		var port = environment.getProperty("local.server.port");
+		book.setEnvironment(port);
+		book.setPrice(cambio.getConvertedValue());
+		
+		return book;
+	}
+	
+	
+	/*
+	 * Example with RestTemplate
+	 * */
+	/*@GetMapping(value = "/{id}/{currency}")
 	public Book findBook(@PathVariable("id") Long id, @PathVariable("currency") String currency) {
 		
 		var book = repository.getById(id);
@@ -43,5 +66,5 @@ public class BookController {
 		book.setPrice(cambio.getConvertedValue());
 		
 		return book;
-	}
+	}*/
 }
