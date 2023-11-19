@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApiGatewayConfiguration {
-
-	@Bean
+	//Configurar rota, trocado pelo yml
+	/*@Bean
 	public RouteLocator gatewayRouter(RouteLocatorBuilder builder) {
 		return builder.routes()
 				.route(p -> p.path("/get")
@@ -20,5 +20,5 @@ public class ApiGatewayConfiguration {
 				.route(p -> p.path("/book-service/**")
 						   .uri("lb://book-service"))
 				.build();
-	}
+	}*/
 }
