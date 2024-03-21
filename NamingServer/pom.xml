@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.github.yanburigo</groupId>
-	<artifactId>NamingServer</artifactId>
+	<artifactId>naming-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>NamingServer</name>
 	<description>Demo project for Spring Boot</description>
@@ -56,8 +56,10 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
+						<name>yanburigo/java-naming-server:${project.version}</name>
 						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
 					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 				</configuration>
 			</plugin>
 		</plugins>
